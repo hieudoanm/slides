@@ -102,26 +102,34 @@ export const validate = (data: PitchDeck): ValidationError[] => {
 	}
 
 	// --- Business Model ---
-	if (!data.businessModel) {
+	if (!data.pricing) {
 		errors.push({
-			path: 'businessModel',
-			message: 'Business model section is missing',
+			path: 'pricing',
+			message: 'Pricing section is missing',
 			hint: 'Add pricing and revenue model.',
 		});
 	} else {
-		if (typeof data.businessModel.pricing !== 'string') {
+		if (typeof data.pricing.symbol !== 'string') {
 			errors.push({
-				path: 'businessModel.pricing',
-				message: 'Pricing is required',
-				hint: 'Example: pricing: $9/month',
+				path: 'pricing.symbol',
+				message: 'Symbol is required',
+				hint: 'Example: symbol: $',
 			});
 		}
 
-		if (typeof data.businessModel.model !== 'string') {
+		if (typeof data.pricing.amount !== 'number') {
 			errors.push({
-				path: 'businessModel.model',
-				message: 'Business model is required',
-				hint: 'Example: model: Subscription SaaS',
+				path: 'pricing.amount',
+				message: 'Amount is required',
+				hint: 'Example: amount: 19',
+			});
+		}
+
+		if (typeof data.pricing.frequency !== 'string') {
+			errors.push({
+				path: 'pricing.frequency',
+				message: 'Frequency is required',
+				hint: 'Example: frequency: month',
 			});
 		}
 	}

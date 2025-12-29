@@ -5,7 +5,7 @@ export type SlideBlock =
 	| { type: 'subtitle'; text: string }
 	| { type: 'text'; text: string }
 	| { type: 'bullets'; items: string[] }
-	| { type: 'highlight'; left: string; right: string };
+	| { type: 'highlight'; text: string; subtext: string };
 
 export type SlideLayout = {
 	kicker?: string;
@@ -31,9 +31,10 @@ export type ProductSlide = {
 	features: string[];
 };
 
-export type BusinessModelSlide = {
-	pricing: string;
-	model: 'Subscription' | 'One-time' | 'Freemium' | string;
+export type PricingSlide = {
+	symbol: string;
+	amount: number;
+	frequency: string;
 };
 
 // Overall
@@ -43,5 +44,5 @@ export type PitchDeck = {
 	problem: ProblemSlide;
 	solution: SolutionSlide;
 	product: ProductSlide;
-	businessModel: BusinessModelSlide;
+	pricing: PricingSlide;
 };

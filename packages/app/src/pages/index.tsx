@@ -14,27 +14,29 @@ import { NextPage } from 'next';
 import { useEffect, useMemo, useState } from 'react';
 import yaml from 'yaml';
 
-const CONTENT = `title:
-  product: InvoiceMate
-  tagline: Simple invoicing for indie founders
-  audience: Indie founders & freelancers
+const CONTENT = `
+title:
+  product: PitchDeckGen
+  tagline: Create stunning pitch decks in minutes
+  audience: Startup founders & entrepreneurs
 
 problem:
-  - Creating invoices is slow and repetitive
-  - Existing tools are bloated and expensive
+  - Designing slides is time-consuming
+  - Existing tools are either too complex or too generic
 
 solution:
-  description: A lightweight invoice generator that connects to Stripe and exports PDFs in one click.
+  description: An AI-powered pitch deck generator that turns your ideas into professional slides instantly.
 
 product:
   features:
-    - Create invoices in under 30 seconds
-    - Stripe sync
-    - Clean professional templates
+    - AI-assisted slide creation
+    - Customizable templates
+    - Export to PDF or PowerPoint
 
-businessModel:
-  pricing: $9/month
-  model: Subscription SaaS
+pricing:
+  symbol: "$"
+  amount: 19
+  frequency: One-time
 `;
 
 const getInitialInput = () => {
