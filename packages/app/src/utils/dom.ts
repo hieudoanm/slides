@@ -5,7 +5,7 @@ export const applyExportSafeColors = (root: HTMLElement) => {
 
 	// All elements in subtree including root
 	const htmlElements = Array.from(
-		root.querySelectorAll<HTMLElement>('*'),
+		root.querySelectorAll<HTMLElement>('*')
 	).concat(root);
 
 	htmlElements.forEach((el) => {
@@ -47,4 +47,54 @@ export const applyExportSafeColors = (root: HTMLElement) => {
 			else element.removeAttribute('style');
 		});
 	};
+};
+
+export const inlineTailwindStyles = (root: HTMLElement) => {
+	const props = [
+		'width',
+		'height',
+		'minWidth',
+		'minHeight',
+		'padding',
+		'paddingTop',
+		'paddingBottom',
+		'paddingLeft',
+		'paddingRight',
+		'margin',
+		'marginTop',
+		'marginBottom',
+		'marginLeft',
+		'marginRight',
+		'gap',
+		'fontSize',
+		'fontWeight',
+		'lineHeight',
+		'letterSpacing',
+		'color',
+		'backgroundColor',
+		'borderColor',
+		'borderWidth',
+		'borderRadius',
+		'backgroundImage', // for gradients
+	];
+
+	const allElements = root.querySelectorAll<HTMLElement>('*');
+
+	allElements.forEach((el) => {
+		const computed = getComputedStyle(el);
+
+		props.forEach((prop) => {
+			let value = computed.getPropertyValue(prop);
+			if (!value) return;
+
+			// Convert oklch() or lab() colors to hex if needed
+			if (value.includes('oklch(')) value = oklchToHex(value);
+			if (value.includes('lab(')) value = labToHex(value);
+
+			el.style.setProperty(
+				prop.replace(/([A-Z])/g, '-$1').toLowerCase(), // camelCase → kebab-case
+				value
+			);
+		});
+	});
 };

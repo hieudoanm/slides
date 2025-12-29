@@ -11,66 +11,8 @@ exports[`Navbar renders correctly 1`] = `
       <span
         class="text-lg font-bold"
       >
-        5-Slide Pitch Deck Generator
+        Pitch Deck Generator
       </span>
-    </div>
-    <div
-      class="flex-none gap-2"
-    >
-      <select
-        class="select select-bordered select-sm"
-      >
-        <option
-          value="light"
-        >
-          light
-        </option>
-        <option
-          value="dark"
-        >
-          dark
-        </option>
-        <option
-          value="cupcake"
-        >
-          cupcake
-        </option>
-        <option
-          value="bumblebee"
-        >
-          bumblebee
-        </option>
-        <option
-          value="emerald"
-        >
-          emerald
-        </option>
-        <option
-          value="corporate"
-        >
-          corporate
-        </option>
-        <option
-          value="synthwave"
-        >
-          synthwave
-        </option>
-        <option
-          value="dracula"
-        >
-          dracula
-        </option>
-        <option
-          value="lofi"
-        >
-          lofi
-        </option>
-        <option
-          value="luxury"
-        >
-          luxury
-        </option>
-      </select>
     </div>
   </div>
 </div>

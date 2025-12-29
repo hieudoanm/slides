@@ -5,7 +5,7 @@ import {
 } from '@pitch/components/SlidePreview/SlidePreview';
 import { Toast, useToast } from '@pitch/components/Toast';
 import { labToHex } from '@pitch/utils/colors';
-import { applyExportSafeColors } from '@pitch/utils/dom';
+import { applyExportSafeColors, inlineTailwindStyles } from '@pitch/utils/dom';
 import { logger } from '@pitch/utils/logger';
 import { validate } from '@pitch/utils/yaml';
 import html2canvas from 'html2canvas';
@@ -105,6 +105,21 @@ const HomePage: NextPage = () => {
 			const preview = document.getElementById('pitch-preview');
 			if (!preview) throw new Error('#pitch-preview not found');
 
+			const styleSheets = Array.from(document.styleSheets)
+				.map((sheet) => {
+					try {
+						return Array.from(sheet.cssRules)
+							.map((rule) => rule.cssText)
+							.join('\n');
+					} catch {
+						return '';
+					}
+				})
+				.join('\n');
+
+			const styleTag = document.createElement('style');
+			styleTag.textContent = styleSheets;
+
 			// Clone preview for export
 			const exportContainer = preview.cloneNode(true) as HTMLElement;
 			exportContainer.style.position = 'fixed';
@@ -112,7 +127,11 @@ const HomePage: NextPage = () => {
 			exportContainer.style.left = '-9999px';
 			exportContainer.style.width = '100%';
 			exportContainer.style.height = '100%';
+			exportContainer.prepend(styleTag);
 			document.body.appendChild(exportContainer);
+
+			// Convert Tailwind classes to inline styles
+			inlineTailwindStyles(exportContainer);
 
 			const originalHtmlBg = getComputedStyle(
 				document.documentElement
@@ -199,10 +218,10 @@ const HomePage: NextPage = () => {
 			{toasts && <Toast toasts={toasts} onDismiss={dismiss} />}
 			<div className="bg-base-200 flex h-screen w-screen flex-col overflow-hidden">
 				<Navbar />
-				<div className="h-full grow">
-					<div className="divide-base-300 grid h-full w-full grid-cols-2 divide-x">
+				<div className="grow overflow-hidden">
+					<div className="divide-base-300 grid h-full w-full grid-cols-3 divide-x">
 						{/* YAML input */}
-						<div className="col-span-1">
+						<div className="col-span-1 h-full">
 							<textarea
 								id="input"
 								name="input"
@@ -216,10 +235,10 @@ const HomePage: NextPage = () => {
 						</div>
 
 						{/* Slides preview */}
-						<div className="col-span-1 overflow-hidden">
+						<div className="col-span-2 overflow-hidden">
 							<div className="h-full w-full overflow-auto p-8">
 								<div className="flex flex-col gap-y-8">
-									<div className="flex justify-end gap-x-8">
+									<div className="flex justify-start gap-x-8">
 										<button className="btn btn-accent" onClick={shareURL}>
 											🔗 Copy Shareable Link
 										</button>

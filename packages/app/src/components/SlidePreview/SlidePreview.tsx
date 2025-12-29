@@ -41,80 +41,136 @@ export const mapYamlToSlides = (data: PitchDeck): SlideLayout[] => [
 export const SlidePreview: FC<{ slide: SlideLayout; index: number }> = ({
 	slide,
 	index,
-}) => (
-	<div className="group border-base-300 bg-base-100 relative aspect-video w-full cursor-default border p-14 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
-		<div className="from-primary/5 pointer-events-none absolute inset-0 bg-gradient-to-br to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+}) => {
+	return (
+		<div
+			className="group relative aspect-video h-[720px] w-[1280px] cursor-default border p-[56px] shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+			style={{ borderColor: '#4B5563', backgroundColor: '#111827' }} // gray-700 / gray-900
+		>
+			{/* hover gradient overlay */}
+			<div
+				className="pointer-events-none absolute inset-0 opacity-5 transition-opacity group-hover:opacity-20"
+				style={{
+					background: 'linear-gradient(to bottom right, #8B5CF6, transparent)',
+				}} // purple-500
+			/>
 
-		<div className="absolute top-6 right-6 font-mono text-xs tracking-widest opacity-40">
-			{index + 1} / 5
-		</div>
-
-		{slide.kicker && (
-			<div className="text-primary/80 mb-4 text-xs font-semibold tracking-widest uppercase">
-				{slide.kicker}
+			{/* slide index */}
+			<div
+				className="absolute top-[24px] right-[24px] font-mono text-[12px]"
+				style={{
+					color: '#9CA3AF',
+					whiteSpace: 'normal',
+					wordBreak: 'break-word',
+				}} // gray-400
+			>
+				{index + 1} / 5
 			</div>
-		)}
 
-		{/* deck title */}
-		{slide.title && (
-			<h2 className="mb-4 text-4xl leading-tight font-bold tracking-tight">
-				{slide.title}
-			</h2>
-		)}
+			{/* kicker */}
+			{slide.kicker && (
+				<div
+					className="mb-[16px] text-[12px] font-semibold uppercase"
+					style={{
+						color: '#A78BFA',
+						whiteSpace: 'normal',
+						wordBreak: 'break-word',
+					}} // purple-400
+				>
+					{slide.kicker}
+				</div>
+			)}
 
-		<div className="flex flex-col gap-6">
-			{slide.blocks.map((b, i) => {
-				switch (b.type) {
-					case 'title':
-						return (
-							<h2
-								key={i}
-								className="text-4xl leading-tight font-bold tracking-tight">
-								{b.text}
-							</h2>
-						);
+			{/* deck title */}
+			{slide.title && (
+				<h2
+					className="mb-[16px] text-[36px] font-bold"
+					style={{
+						color: '#FFFFFF',
+						whiteSpace: 'normal',
+						wordBreak: 'break-word',
+					}}>
+					{slide.title}
+				</h2>
+			)}
 
-					case 'subtitle':
-						return (
-							<p key={i} className="text-base-content/90 text-2xl font-medium">
-								{b.text}
-							</p>
-						);
+			<div className="flex flex-col gap-[24px]">
+				{slide.blocks.map((b, i) => {
+					const textStyle = {
+						whiteSpace: 'normal' as const,
+						wordBreak: 'break-word' as const,
+					};
+					switch (b.type) {
+						case 'title':
+							return (
+								<h2
+									key={i}
+									className="text-[36px] font-bold"
+									style={{ color: '#FFFFFF', ...textStyle }}>
+									{b.text}
+								</h2>
+							);
 
-					case 'text':
-						return (
-							<p
-								key={i}
-								className="text-base-content/70 max-w-xl text-lg leading-relaxed">
-								{b.text}
-							</p>
-						);
-
-					case 'bullets':
-						return (
-							<ul key={i} className="space-y-4">
-								{b.items.map((item, j) => (
-									<li key={j} className="flex items-start gap-4 text-lg">
-										<span className="text-primary mt-1">●</span>
-										<span>{item}</span>
-									</li>
-								))}
-							</ul>
-						);
-
-					case 'highlight':
-						return (
-							<div
-								key={i}
-								className="bg-base-200 flex items-center gap-6 rounded-xl p-6">
-								<div className="text-primary text-4xl font-extrabold">
-									{b.left}
+						case 'subtitle':
+							return (
+								<div
+									key={i}
+									className="text-[24px] font-medium"
+									style={{ color: '#D1D5DB', ...textStyle }}>
+									<pre className="pb-2">{b.text}</pre>
 								</div>
-								<div className="text-base-content/70 text-lg">{b.right}</div>
-							</div>
-						);
-				}
-			})}
+							);
+
+						case 'text':
+							return (
+								<div
+									key={i}
+									className="max-w-[800px] text-[18px]"
+									style={{ color: '#9CA3AF', ...textStyle }}>
+									<pre className="pb-2">{b.text}</pre>
+								</div>
+							);
+
+						case 'bullets':
+							return (
+								<ul
+									key={i}
+									className="space-y-[16px] pl-[24px] text-[18px]"
+									style={{ color: '#E5E7EB', ...textStyle }}>
+									{b.items.map((item, j) => (
+										<li key={j} className="flex items-start gap-[16px]">
+											<span style={{ color: '#A78BFA', marginTop: '4px' }}>
+												●
+											</span>
+											<pre className="pb-2" style={textStyle}>
+												{item}
+											</pre>
+										</li>
+									))}
+								</ul>
+							);
+
+						case 'highlight':
+							return (
+								<div
+									key={i}
+									className="flex items-center gap-[24px] rounded-[12px] p-[24px]"
+									style={{ backgroundColor: '#1F2937' }}>
+									<div
+										className="text-[36px] font-extrabold"
+										style={{ color: '#A78BFA', ...textStyle }}>
+										<pre className="pb-2">{b.left}</pre>
+									</div>
+									<div
+										className="text-[18px]"
+										style={{ color: '#9CA3AF', ...textStyle }}>
+										<pre className="pb-2">{b.right}</pre>
+									</div>
+								</div>
+							);
+					}
+				})}
+			</div>
 		</div>
-	</div>
-);
+	);
+};

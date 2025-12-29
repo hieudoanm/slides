@@ -28,7 +28,7 @@ export const useToast = () => {
 	const show = (
 		type: ToastType,
 		message: string,
-		duration = type === 'loading' ? undefined : 2500,
+		duration = type === 'loading' ? undefined : 2500
 	) => {
 		const id = Date.now();
 
