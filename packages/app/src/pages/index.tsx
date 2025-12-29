@@ -18,20 +18,25 @@ const CONTENT = `
 title:
   product: PitchDeckGen
   tagline: Create stunning pitch decks in minutes
-  audience: Startup founders & entrepreneurs
+  audience: Startup founders & entrepreneurs, early-stage startups, and solo founders
 
 problem:
-  - Designing slides is time-consuming
-  - Existing tools are either too complex or too generic
+  - Designing slides is time-consuming and repetitive
+  - Existing tools are either too complex for beginners or too generic for customization
+  - Non-designers struggle to create visually appealing presentations
+  - Quickly iterating on slides for investors is difficult
 
 solution:
-  description: An AI-powered pitch deck generator that turns your ideas into professional slides instantly.
+  description: An AI-powered pitch deck generator that turns your ideas into professional slides instantly, saving time and making your ideas visually compelling.
 
 product:
   features:
-    - AI-assisted slide creation
-    - Customizable templates
-    - Export to PDF or PowerPoint
+    - AI-assisted slide creation from simple input prompts
+    - Customizable templates with brand colors and fonts
+    - Export to PDF, PowerPoint, or Google Slides
+    - Automatic layout suggestions for professional design
+    - Drag-and-drop editing for fine-tuning
+    - Pre-built content blocks for common slide types (team, metrics, roadmap)
 
 pricing:
   symbol: "$"

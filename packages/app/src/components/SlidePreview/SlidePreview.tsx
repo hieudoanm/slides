@@ -1,5 +1,5 @@
 import { PitchDeck, SlideLayout } from '@pitch/types/pitch.types';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
 export const mapYamlToSlides = (data: PitchDeck): SlideLayout[] => [
 	{
@@ -38,6 +38,14 @@ export const mapYamlToSlides = (data: PitchDeck): SlideLayout[] => [
 	},
 ];
 
+const Text: FC<{ children: ReactNode }> = ({ children }) => {
+	return (
+		<pre className="m-0 inline pb-8 break-words whitespace-pre-wrap">
+			{children}
+		</pre>
+	);
+};
+
 export const SlidePreview: FC<{ slide: SlideLayout; index: number }> = ({
 	slide,
 	index,
@@ -48,37 +56,33 @@ export const SlidePreview: FC<{ slide: SlideLayout; index: number }> = ({
 			<div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-500 to-transparent opacity-0 transition-opacity group-hover:opacity-20" />
 
 			{/* slide index */}
-			<div className="absolute top-6 right-6 font-mono text-xs text-neutral-400">
+			<div className="absolute top-6 right-6 font-mono text-lg text-neutral-400">
 				{index + 1} / 5
 			</div>
 
 			{/* kicker */}
 			{slide.kicker && (
-				<div className="mb-4 text-xs font-semibold text-purple-400 uppercase">
-					<pre className="m-0 inline pb-4 break-words whitespace-pre-wrap">
-						{slide.kicker}
-					</pre>
+				<div className="mb-6 text-lg font-semibold text-purple-400 uppercase">
+					<Text>{slide.kicker}</Text>
 				</div>
 			)}
 
 			{/* deck title */}
 			{slide.title && (
-				<div className="mb-4 text-4xl font-bold text-white">
-					<pre className="m-0 inline pb-4 break-words whitespace-pre-wrap">
-						{slide.title}
-					</pre>
+				<div className="mb-6 text-6xl leading-tight font-bold text-white">
+					<Text>{slide.title}</Text>
 				</div>
 			)}
 
-			<div className="flex flex-col">
+			<div className="flex flex-col gap-6">
 				{slide.blocks.map((b, i) => {
 					switch (b.type) {
 						case 'title':
 							return (
-								<div key={i} className="mb-4 text-4xl font-bold text-white">
-									<pre className="m-0 inline pb-4 break-words whitespace-pre-wrap">
-										{b.text}
-									</pre>
+								<div
+									key={i}
+									className="text-5xl leading-tight font-bold text-white">
+									<Text>{b.text}</Text>
 								</div>
 							);
 
@@ -86,30 +90,26 @@ export const SlidePreview: FC<{ slide: SlideLayout; index: number }> = ({
 							return (
 								<div
 									key={i}
-									className="mb-4 text-2xl font-medium text-neutral-300">
-									<pre className="m-0 inline pb-4 break-words whitespace-pre-wrap">
-										{b.text}
-									</pre>
+									className="text-3xl leading-snug font-medium text-neutral-300">
+									<Text>{b.text}</Text>
 								</div>
 							);
 
 						case 'text':
 							return (
-								<div key={i} className="mb-4 text-lg text-neutral-400">
-									<pre className="m-0 pb-4 break-words whitespace-pre-wrap">
-										{b.text}
-									</pre>
+								<div
+									key={i}
+									className="text-2xl leading-relaxed text-neutral-400">
+									<Text>{b.text}</Text>
 								</div>
 							);
 
 						case 'bullets':
 							return (
-								<ul className="list-inside list-disc space-y-2 pl-6 text-neutral-200 marker:text-purple-400">
+								<ul className="list-inside list-disc space-y-4 pl-10 text-2xl leading-relaxed text-neutral-200 marker:text-purple-400">
 									{b.items.map((item, j) => (
 										<li key={j}>
-											<pre className="m-0 inline pb-4 break-words whitespace-pre-wrap">
-												{item}
-											</pre>
+											<Text>{item}</Text>
 										</li>
 									))}
 								</ul>
@@ -117,12 +117,11 @@ export const SlidePreview: FC<{ slide: SlideLayout; index: number }> = ({
 
 						case 'highlight':
 							return (
-								<div key={i} className="flex items-start gap-6 pb-6">
+								<div key={i} className="flex items-start gap-8 pb-8">
 									{/* big number */}
-									<div className="flex-shrink-0 text-purple-400">
-										<span className="text-5xl font-extrabold">{b.text}</span>
-										<span className="text-3xl">/</span>
-										<span className="text-xl">{b.subtext}</span>
+									<div className="flex flex-shrink-0 items-baseline gap-2 text-purple-400">
+										<span className="text-7xl font-extrabold">{b.text}</span>
+										{b.subtext && <span className="text-4xl">{b.subtext}</span>}
 									</div>
 								</div>
 							);
