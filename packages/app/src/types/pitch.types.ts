@@ -8,7 +8,8 @@ export type SlideBlock =
 			type: 'bullets';
 			items: { emoji?: string; title?: string; description?: string }[];
 	  }
-	| { type: 'highlight'; text: string; subtext: string };
+	| { type: 'highlight'; text: string; subtext: string }
+	| { type: 'center'; blocks: SlideBlock[] };
 
 export type SlideLayout = {
 	kicker?: string;

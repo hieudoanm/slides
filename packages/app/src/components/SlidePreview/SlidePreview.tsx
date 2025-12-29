@@ -5,9 +5,14 @@ export const mapYamlToSlides = (data: PitchDeck): SlideLayout[] => [
 	{
 		kicker: 'Introduction',
 		blocks: [
-			{ type: 'title', text: data.title.product },
-			{ type: 'subtitle', text: data.title.tagline },
-			{ type: 'text', text: data.title.audience },
+			{
+				type: 'center',
+				blocks: [
+					{ type: 'title', text: data.title.product },
+					{ type: 'subtitle', text: data.title.tagline },
+					{ type: 'text', text: data.title.audience },
+				],
+			},
 		],
 	},
 	{
@@ -53,9 +58,9 @@ export const mapYamlToSlides = (data: PitchDeck): SlideLayout[] => [
 		],
 	},
 	{
-		kicker: 'Business Model',
+		kicker: 'Pricing Model',
 		blocks: [
-			{ type: 'title', text: 'Pricing' },
+			{ type: 'title', text: 'Pricing Plans' },
 			{
 				type: 'highlight',
 				text: `${data.pricing.symbol}${data.pricing.amount}`,
@@ -82,26 +87,27 @@ export const SlidePreview: FC<{ slide: SlideLayout; index: number }> = ({
 			{/* hover gradient overlay */}
 			<div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-500 to-transparent opacity-0 transition-opacity group-hover:opacity-20" />
 
-			{/* slide index */}
-			<div className="absolute top-6 right-6 font-mono text-lg text-neutral-400">
-				{index + 1} / 5
+			<div className="flex items-start justify-between">
+				{/* kicker */}
+				{slide.kicker && (
+					<div className="text-secondary mb-8 text-lg font-semibold uppercase">
+						<Text>{slide.kicker}</Text>
+					</div>
+				)}
+				{/* slide index */}
+				<div className="text-base-content font-mono text-lg">
+					<Text>{index + 1} / 5</Text>
+				</div>
 			</div>
 
-			{/* kicker */}
-			{slide.kicker && (
-				<div className="mb-8 text-lg font-semibold text-purple-400 uppercase">
-					<Text>{slide.kicker}</Text>
-				</div>
-			)}
-
-			<div className="flex flex-col">
+			<div className="flex h-full flex-col">
 				{slide.blocks.map((b, i) => {
 					switch (b.type) {
 						case 'title':
 							return (
 								<div
 									key={i}
-									className="mb-8 text-5xl leading-tight font-bold text-white">
+									className="text-base-content mb-8 text-5xl leading-tight font-bold">
 									<Text>{b.text}</Text>
 								</div>
 							);
@@ -110,7 +116,7 @@ export const SlidePreview: FC<{ slide: SlideLayout; index: number }> = ({
 							return (
 								<div
 									key={i}
-									className="mb-8 text-3xl leading-snug font-medium text-neutral-300">
+									className="text-primary mb-8 text-2xl leading-snug font-semibold">
 									<Text>{b.text}</Text>
 								</div>
 							);
@@ -119,8 +125,44 @@ export const SlidePreview: FC<{ slide: SlideLayout; index: number }> = ({
 							return (
 								<div
 									key={i}
-									className="text-2xl leading-relaxed text-neutral-400">
+									className="text-neutral-content text-2xl leading-relaxed">
 									<Text>{b.text}</Text>
+								</div>
+							);
+
+						case 'center':
+							return (
+								<div
+									key={i}
+									className="-mt-16 flex h-full flex-col items-center justify-center text-center">
+									{b.blocks.map((child, j) => (
+										<div key={j}>
+											{(() => {
+												switch (child.type) {
+													case 'title':
+														return (
+															<div className="text-base-content mb-6 text-6xl leading-tight font-bold">
+																<Text>{child.text}</Text>
+															</div>
+														);
+
+													case 'subtitle':
+														return (
+															<div className="text-primary mb-6 text-3xl font-semibold">
+																<Text>{child.text}</Text>
+															</div>
+														);
+
+													case 'text':
+														return (
+															<div className="text-neutral-content text-xl">
+																<Text>{child.text}</Text>
+															</div>
+														);
+												}
+											})()}
+										</div>
+									))}
 								</div>
 							);
 
@@ -133,12 +175,12 @@ export const SlidePreview: FC<{ slide: SlideLayout; index: number }> = ({
 											<span className="text-3xl">{item.emoji}</span>
 											<div className="flex flex-col gap-2">
 												{/* Title */}
-												<div className="text-2xl font-bold text-white">
+												<div className="text-base-content text-2xl font-bold">
 													<Text>{item.title}</Text>
 												</div>
 												{/* Description */}
 												{item.description && (
-													<div className="text-xl text-neutral-300">
+													<div className="text-neutral-content text-xl">
 														<Text>{item.description}</Text>
 													</div>
 												)}
@@ -152,7 +194,7 @@ export const SlidePreview: FC<{ slide: SlideLayout; index: number }> = ({
 							return (
 								<div key={i} className="flex items-start gap-8 pb-8">
 									{/* big number */}
-									<div className="flex flex-shrink-0 items-baseline gap-2 text-purple-400">
+									<div className="text-primary flex flex-shrink-0 items-baseline gap-2">
 										{b.text && (
 											<span className="text-8xl font-extrabold">{b.text}</span>
 										)}
