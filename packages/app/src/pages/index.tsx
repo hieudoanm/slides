@@ -1,15 +1,25 @@
+// Code Editor
+import { yaml as yamlLang } from '@codemirror/lang-yaml';
+import CodeMirror from '@uiw/react-codemirror';
+
+// Components
 import { Navbar } from '@pitch/components/Navbar';
 import {
 	mapYamlToSlides,
 	SlidePreview,
 } from '@pitch/components/SlidePreview/SlidePreview';
 import { Toast, useToast } from '@pitch/components/Toast';
+
+// Utils
 import { labToHex } from '@pitch/utils/colors';
 import { applyExportSafeColors, inlineTailwindStyles } from '@pitch/utils/dom';
 import { logger } from '@pitch/utils/logger';
 import { validate } from '@pitch/utils/yaml';
+
+// HTML to PDF
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+
 import { NextPage } from 'next';
 import { useEffect, useMemo, useState } from 'react';
 import yaml from 'yaml';
@@ -257,7 +267,7 @@ const HomePage: NextPage = () => {
 			{toasts && <Toast toasts={toasts} onDismiss={dismiss} />}
 			<div className="bg-base-200 flex h-screen w-screen flex-col overflow-hidden">
 				<Navbar />
-				<div className="grow overflow-hidden">
+				<div className="h-full grow overflow-hidden">
 					<div className="divide-base-300 grid h-full w-full grid-cols-24 divide-x">
 						<div className="col-span-1 flex h-full flex-col items-center justify-start gap-4 p-4">
 							{/* Toggle YAML */}
@@ -298,20 +308,19 @@ const HomePage: NextPage = () => {
 
 						{/* YAML input */}
 						{showInput && (
-							<div className="col-span-11 h-full">
-								<textarea
-									id="input"
-									name="input"
-									placeholder="Input YAML"
-									className="bg-base-100 h-full w-full p-8 font-mono text-sm focus:outline-none"
-									value={input}
-									onChange={(event) => {
-										setState((previous) => ({
-											...previous,
-											input: event.target.value,
-										}));
-									}}
-								/>
+							<div className="col-span-11 h-full overflow-auto">
+								<div className="bg-base-100 border-base-300 h-full">
+									<CodeMirror
+										value={input}
+										height="100%"
+										className="h-full"
+										extensions={[yamlLang()]}
+										onChange={(value) =>
+											setState((prev) => ({ ...prev, input: value }))
+										}
+										theme="dark"
+									/>
+								</div>
 							</div>
 						)}
 

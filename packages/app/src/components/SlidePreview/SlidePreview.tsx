@@ -13,7 +13,7 @@ export const mapYamlToSlides = (data: PitchDeck): SlideLayout[] => [
 	{
 		kicker: 'Problems',
 		blocks: [
-			{ type: 'title', text: 'Problems' },
+			{ type: 'title', text: 'Issues' },
 			{
 				type: 'bullets',
 				items: data.problems.map((p) => ({
@@ -27,7 +27,7 @@ export const mapYamlToSlides = (data: PitchDeck): SlideLayout[] => [
 	{
 		kicker: 'Solution',
 		blocks: [
-			{ type: 'title', text: 'Solution' },
+			{ type: 'title', text: 'Steps' },
 			{
 				type: 'bullets',
 				items: data.solutions.map((step) => ({
@@ -41,7 +41,7 @@ export const mapYamlToSlides = (data: PitchDeck): SlideLayout[] => [
 	{
 		kicker: 'Product',
 		blocks: [
-			{ type: 'title', text: 'Product' },
+			{ type: 'title', text: 'Features' },
 			{
 				type: 'bullets',
 				items: data.product.features.map((feature) => ({
