@@ -4,12 +4,14 @@ import {
 	SlidePreview,
 } from '@pitch/components/SlidePreview/SlidePreview';
 import { Toast, useToast } from '@pitch/components/Toast';
+import { labToHex } from '@pitch/utils/colors';
+import { applyExportSafeColors } from '@pitch/utils/dom';
 import { logger } from '@pitch/utils/logger';
-import { buildPitchPDF, Theme } from '@pitch/utils/pdf';
 import { validate } from '@pitch/utils/yaml';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import { NextPage } from 'next';
-import pdfMake from 'pdfmake/build/pdfmake';
-import { FC, ReactNode, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import yaml from 'yaml';
 
 const CONTENT = `title:
@@ -40,40 +42,6 @@ const getInitialInput = () => {
 	const yamlParam = new URLSearchParams(location.search).get('yaml');
 	return yamlParam ? decodeURIComponent(yamlParam) : CONTENT;
 };
-
-const Slide: FC<{
-	title: string;
-	kicker?: string;
-	index?: number;
-	children: ReactNode;
-}> = ({ title, kicker, children, index }) => (
-	<div className="group border-base-300 bg-base-100 relative flex aspect-video flex-col justify-center rounded-2xl border p-14 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
-		{/* ✨ Hover gradient overlay */}
-		<div className="from-primary/5 pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-
-		{/* Slide index */}
-		{typeof index === 'number' && (
-			<div className="absolute top-6 right-6 font-mono text-sm opacity-40">
-				{index + 1}/5
-			</div>
-		)}
-
-		{/* Kicker */}
-		{kicker && (
-			<div className="text-primary mb-3 text-sm font-semibold tracking-wider uppercase opacity-80">
-				{kicker}
-			</div>
-		)}
-
-		<h2 className="mb-6 text-4xl leading-tight font-bold tracking-tight">
-			{title}
-		</h2>
-
-		<div className="text-base-content/90 text-lg leading-relaxed">
-			{children}
-		</div>
-	</div>
-);
 
 const HomePage: NextPage = () => {
 	const { toasts, show, dismiss } = useToast();
@@ -119,10 +87,10 @@ const HomePage: NextPage = () => {
 
 	const slides = useMemo(
 		() => (parsed.data ? mapYamlToSlides(parsed.data) : []),
-		[parsed.data],
+		[parsed.data]
 	);
 
-	const exportPDF = () => {
+	const exportPDF = async () => {
 		logger.info('PDF export requested 📄');
 
 		if (!parsed.data || parsed.errors.length > 0) {
@@ -131,23 +99,87 @@ const HomePage: NextPage = () => {
 			return;
 		}
 
-		// Loading toast
 		const loadingId = show('loading', 'Generating PDF…');
 
-		const theme = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
+		try {
+			const preview = document.getElementById('pitch-preview');
+			if (!preview) throw new Error('#pitch-preview not found');
 
-		logger.info('Building PDF 🎨', { theme });
+			// Clone preview for export
+			const exportContainer = preview.cloneNode(true) as HTMLElement;
+			exportContainer.style.position = 'fixed';
+			exportContainer.style.top = '-9999px';
+			exportContainer.style.left = '-9999px';
+			exportContainer.style.width = '100%';
+			exportContainer.style.height = '100%';
+			document.body.appendChild(exportContainer);
 
-		const slides = mapYamlToSlides(parsed.data);
-		const docDefinition = buildPitchPDF(slides, theme as Theme);
+			const originalHtmlBg = getComputedStyle(
+				document.documentElement
+			).backgroundColor;
+			const originalBodyBg = getComputedStyle(document.body).backgroundColor;
 
-		pdfMake
-			.createPdf(docDefinition)
-			.download(`${parsed.data.title.product}.pdf`);
+			// Force export-safe backgrounds
+			document.documentElement.style.backgroundColor = originalHtmlBg.includes(
+				'lab('
+			)
+				? labToHex(originalHtmlBg)
+				: originalHtmlBg; // fallback hex / rgb
+			document.body.style.backgroundColor = originalBodyBg.includes('lab(')
+				? labToHex(originalBodyBg)
+				: originalBodyBg; // fallback hex / rgb
 
-		dismiss(loadingId);
-		logger.success('PDF exported 🎉', parsed.data.title.product);
-		show('success', 'PDF exported successfully');
+			// Apply export-safe colors to clone
+			const restoreColors = applyExportSafeColors(exportContainer);
+
+			const slides = Array.from(
+				exportContainer.querySelectorAll<HTMLElement>('.aspect-video')
+			);
+
+			if (slides.length === 0)
+				throw new Error('No slides found inside preview');
+
+			logger.info('Rendering slides 🖼️', { count: slides.length });
+
+			const pdf = new jsPDF({
+				orientation: 'landscape',
+				unit: 'px',
+				format: [1280, 720],
+			});
+
+			for (let i = 0; i < slides.length; i++) {
+				const slide = slides[i];
+
+				const canvas = await html2canvas(slide, {
+					scale: 2,
+					useCORS: true,
+					backgroundColor: null,
+					width: 1280,
+					height: 720,
+					windowWidth: 1280,
+					windowHeight: 720,
+				});
+
+				const imgData = canvas.toDataURL('image/png');
+
+				if (i > 0) pdf.addPage();
+				pdf.addImage(imgData, 'PNG', 0, 0, 1280, 720);
+			}
+
+			// Cleanup
+			restoreColors();
+			document.body.removeChild(exportContainer);
+
+			pdf.save(`${parsed.data.title.product}.pdf`);
+
+			logger.success('PDF exported 🎉', parsed.data.title.product);
+			show('success', 'PDF exported successfully');
+		} catch (err) {
+			logger.error('PDF export failed ❌', err);
+			show('error', 'PDF export failed');
+		} finally {
+			dismiss(loadingId);
+		}
 	};
 
 	const shareURL = () => {
@@ -224,13 +256,15 @@ const HomePage: NextPage = () => {
 												</div>
 											)}
 
-											{slides.map((slide, i) => (
-												<SlidePreview
-													key={slide.kicker}
-													index={i}
-													slide={slide}
-												/>
-											))}
+											<div id="pitch-preview" className="flex flex-col gap-8">
+												{slides.map((slide, i) => (
+													<SlidePreview
+														key={slide.kicker}
+														index={i}
+														slide={slide}
+													/>
+												))}
+											</div>
 										</>
 									)}
 								</div>

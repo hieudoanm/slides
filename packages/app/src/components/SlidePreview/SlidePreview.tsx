@@ -42,8 +42,8 @@ export const SlidePreview: FC<{ slide: SlideLayout; index: number }> = ({
 	slide,
 	index,
 }) => (
-	<div className="group border-base-300 bg-base-100 relative aspect-video w-full cursor-default rounded-2xl border p-14 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
-		<div className="from-primary/5 pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+	<div className="group border-base-300 bg-base-100 relative aspect-video w-full cursor-default border p-14 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+		<div className="from-primary/5 pointer-events-none absolute inset-0 bg-gradient-to-br to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
 
 		<div className="absolute top-6 right-6 font-mono text-xs tracking-widest opacity-40">
 			{index + 1} / 5
