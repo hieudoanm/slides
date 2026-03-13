@@ -1,35 +1,83 @@
-import { Landing } from '@pitch/components/Landing';
-import { INITIAL_CONTENT } from '@pitch/constants/app';
-import { logger } from '@pitch/utils/logger';
-import { validate } from '@pitch/utils/yaml';
+import {
+	LandingContent,
+	LandingTemplate,
+} from '@pitch/templates/LandingTemplate';
 import { NextPage } from 'next';
-import { parse } from 'yaml';
 
-const parseContent = (content: string) => {
-	try {
-		logger.info('Parsing YAML ✍️');
-		const result = parse(content);
-		const errors = validate(result);
-
-		if (errors.length > 0) {
-			logger.warn('YAML validation errors 🧪', errors);
-		} else {
-			logger.success('YAML valid ✅');
-		}
-
-		return { data: result, errors: validate(result) };
-	} catch (error) {
-		logger.error('YAML parsing failed 💥', error);
-		return { data: null, errors: [{ path: '', message: 'Invalid YAML' }] };
-	}
+const content: LandingContent = {
+	navbar: {
+		title: 'Pitch Deck Generator',
+		buttonText: 'Create Deck',
+		buttonHref: '/app',
+	},
+	hero: {
+		title: 'Create Stunning Pitch Decks Instantly',
+		tagline:
+			'A fast, intuitive, and privacy-first pitch deck generator that works entirely in your browser.',
+		buttonText: 'Start Creating',
+		buttonHref: '/app',
+	},
+	features: {
+		title: 'Features',
+		items: [
+			{
+				id: 'instant-templates',
+				emoji: '📄',
+				title: 'Instant Templates',
+				description:
+					'Choose from professional templates to get your pitch deck started in seconds.',
+			},
+			{
+				id: 'drag-drop-editor',
+				emoji: '✏️',
+				title: 'Drag & Drop Editor',
+				description:
+					'Easily add slides, text, images, and charts with an intuitive drag-and-drop interface.',
+			},
+			{
+				id: 'charts-diagrams',
+				emoji: '📊',
+				title: 'Charts & Diagrams',
+				description:
+					'Visualize your data with ready-to-use charts, graphs, and diagrams for impactful presentations.',
+			},
+			{
+				id: 'privacy-first',
+				emoji: '🔒',
+				title: 'Privacy First',
+				description:
+					'All your decks stay in your browser. No data is uploaded or stored remotely.',
+			},
+			{
+				id: 'export-options',
+				emoji: '💾',
+				title: 'Export Options',
+				description:
+					'Export your pitch deck as PDF, PPTX, or share a secure link instantly.',
+			},
+			{
+				id: 'collaboration',
+				emoji: '🤝',
+				title: 'Collaborate Easily',
+				description:
+					'Work with your team in real-time or asynchronously, without losing privacy.',
+			},
+		],
+	},
+	cta: {
+		title: 'Start Building Your Pitch Deck Today',
+		description:
+			'Create professional decks quickly, securely, and with full control. No signup required.',
+		buttonText: 'Create Deck',
+		buttonHref: '/app',
+	},
+	footer: {
+		name: 'Pitch Deck Generator',
+	},
 };
 
 const HomePage: NextPage = () => {
-	const parsed = parseContent(INITIAL_CONTENT);
-
-	const { data } = parsed;
-
-	return <Landing data={data} />;
+	return <LandingTemplate content={content} />;
 };
 
 export default HomePage;

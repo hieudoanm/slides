@@ -34,7 +34,7 @@ const getInitialInput = () => {
 	return yamlParam ? decodeURIComponent(yamlParam) : INITIAL_CONTENT;
 };
 
-const HomePage: NextPage = () => {
+const AppPage: NextPage = () => {
 	const { toasts, show, dismiss } = useToast();
 
 	const [{ input = getInitialInput(), showInput = false }, setState] =
@@ -360,4 +360,4 @@ const HomePage: NextPage = () => {
 	);
 };
 
-export default HomePage;
+export default AppPage;
