@@ -3,21 +3,21 @@ import { yaml as yamlLang } from '@codemirror/lang-yaml';
 import CodeMirror from '@uiw/react-codemirror';
 
 // Components
-import { Navbar } from '@pitch/components/Navbar';
+import { Navbar } from '@slides/components/Navbar';
 import {
 	mapYamlToSlides,
 	SlidePreview,
-} from '@pitch/components/SlidePreview/SlidePreview';
-import { Toast, useToast } from '@pitch/components/Toast';
+} from '@slides/components/SlidePreview/SlidePreview';
+import { Toast, useToast } from '@slides/components/Toast';
 
 // Constants
-import { INITIAL_CONTENT } from '@pitch/constants/app';
+import { INITIAL_CONTENT } from '@slides/constants/app';
 
 // Utils
-import { labToHex } from '@pitch/utils/colors';
-import { applyExportSafeColors, inlineTailwindStyles } from '@pitch/utils/dom';
-import { logger } from '@pitch/utils/logger';
-import { validate } from '@pitch/utils/yaml';
+import { labToHex } from '@slides/utils/colors';
+import { applyExportSafeColors, inlineTailwindStyles } from '@slides/utils/dom';
+import { logger } from '@slides/utils/logger';
+import { validate } from '@slides/utils/yaml';
 
 // HTML to PDF
 import html2canvas from 'html2canvas';
@@ -26,7 +26,7 @@ import jsPDF from 'jspdf';
 import { NextPage } from 'next';
 import { useEffect, useMemo, useState } from 'react';
 import yaml from 'yaml';
-import { Landing } from '@pitch/components/Landing';
+import { Landing } from '@slides/components/Landing';
 
 const getInitialInput = () => {
 	if (typeof window === 'undefined') return INITIAL_CONTENT;

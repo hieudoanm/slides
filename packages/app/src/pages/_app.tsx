@@ -1,4 +1,4 @@
-import '@pitch/styles/globals.css';
+import '@slides/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { Geist, Geist_Mono } from 'next/font/google';
 import Head from 'next/head';

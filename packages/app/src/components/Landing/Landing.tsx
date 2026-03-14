@@ -1,5 +1,5 @@
-import { PitchDeck } from '@pitch/types/pitch.types';
-import { formatCurrency } from '@pitch/utils/number';
+import { PitchDeck } from '@slides/types/pitch.types';
+import { formatCurrency } from '@slides/utils/number';
 import Link from 'next/link';
 import { FC } from 'react';
 import { Navbar } from '../Navbar';

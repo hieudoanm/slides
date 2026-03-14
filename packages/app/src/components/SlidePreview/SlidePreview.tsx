@@ -1,7 +1,7 @@
-import { PitchDeck, SlideLayout } from '@pitch/types/pitch.types';
+import { PitchDeck, SlideLayout } from '@slides/types/pitch.types';
+import { formatCurrency } from '@slides/utils/number';
 import { FC, ReactNode } from 'react';
 import { CenterBlock, TextBlock } from '../Block';
-import { formatCurrency } from '@pitch/utils/number';
 
 export const mapYamlToSlides = (data: PitchDeck): SlideLayout[] => [
 	{

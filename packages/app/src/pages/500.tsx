@@ -1,4 +1,4 @@
-import { ErrorTemplate } from '@pitch/templates/ErrorTemplate';
+import { ErrorTemplate } from '@slides/templates/ErrorTemplate';
 import { NextPage } from 'next';
 
 const messages = [

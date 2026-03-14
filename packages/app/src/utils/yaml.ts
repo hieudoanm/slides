@@ -1,4 +1,4 @@
-import { PitchDeck, Step } from '@pitch/types/pitch.types';
+import { PitchDeck, Step } from '@slides/types/pitch.types';
 
 export type ValidationError = {
 	path: string;

@@ -1,5 +1,5 @@
 import { GetStaticProps, NextPage } from 'next';
-import { VersionTemplate } from '@pitch/templates/VersionTemplate';
+import { VersionTemplate } from '@slides/templates/VersionTemplate';
 
 type Props = {
 	version: string;

@@ -1,5 +1,5 @@
 {
-	"name": "@pitch.deck/app",
+	"name": "@slides/app",
 	"version": "0.0.1",
 	"private": true,
 	"description": "Pitch Deck Generator",

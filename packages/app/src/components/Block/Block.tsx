@@ -1,4 +1,4 @@
-import { SlideBlock } from '@pitch/types/pitch.types';
+import { SlideBlock } from '@slides/types/pitch.types';
 import { FC } from 'react';
 
 export const TextBlock: FC<{ text: string; className?: string }> = ({

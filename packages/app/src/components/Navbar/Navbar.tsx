@@ -1,4 +1,4 @@
-import { INITIAL_THEME, THEMES } from '@pitch/constants/app';
+import { INITIAL_THEME, THEMES } from '@slides/constants/app';
 import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
 

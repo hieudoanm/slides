@@ -1,7 +1,7 @@
 import {
 	LandingContent,
 	LandingTemplate,
-} from '@pitch/templates/LandingTemplate';
+} from '@slides/templates/LandingTemplate';
 import { NextPage } from 'next';
 
 const content: LandingContent = {

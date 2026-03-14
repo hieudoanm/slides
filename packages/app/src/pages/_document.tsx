@@ -1,4 +1,4 @@
-import { INITIAL_THEME } from '@pitch/constants/app';
+import { INITIAL_THEME } from '@slides/constants/app';
 import { Head, Html, Main, NextScript } from 'next/document';
 import { FC } from 'react';
 
