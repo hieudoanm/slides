@@ -18,7 +18,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
 	return (
 		<>
 			<Head>
-				<title>Pitch Deck Generator</title>
+				<title>Slides</title>
 				<link rel="icon" href="/favicon.ico" />
 				<link rel="manifest" href="/manifest.json" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />

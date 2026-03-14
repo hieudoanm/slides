@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
 	reactCompiler: true,
 	reactStrictMode: true,
 	images: { unoptimized: true },
-	basePath: NODE_ENV === 'development' ? '' : '/pitch.deck',
+	basePath: NODE_ENV === 'development' ? '' : '/slides',
 	output: NODE_ENV === 'development' ? 'standalone' : 'export',
 	distDir: NODE_ENV === 'development' ? '.next' : '../../docs',
 };

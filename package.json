@@ -6,13 +6,13 @@
     "pitch",
     "deck"
   ],
-  "homepage": "https://hieudoanm.github.io/pitch.deck",
+  "homepage": "https://hieudoanm.github.io/slides",
   "bugs": {
-    "url": "https://github.com/hieudoanm/pitch.deck/issues"
+    "url": "https://github.com/hieudoanm/slides/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/hieudoanm/pitch.deck.git"
+    "url": "git+ssh://git@github.com/hieudoanm/slides.git"
   },
   "license": "GPL-3.0",
   "author": "hieudoanm <hieumdoan@gmail.com> (https://hieudoanm.github.io)",

@@ -1,8 +1,8 @@
 {
 	"$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-	"productName": "pitch.deck",
-	"version": "0.1.0",
-	"identifier": "io.github.hieudoanm.pitch.deck",
+	"productName": "Slides",
+	"version": "0.0.1",
+	"identifier": "io.github.hieudoanm.slides",
 	"build": {
 		"frontendDist": "../../../docs",
 		"devUrl": "http://localhost:3000",
@@ -12,7 +12,7 @@
 	"app": {
 		"windows": [
 			{
-				"title": "Pitch Deck Generator",
+				"title": "Slides",
 				"width": 800,
 				"height": 600,
 				"resizable": true,
