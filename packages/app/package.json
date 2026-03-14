@@ -22,6 +22,8 @@
 		"node": "25.8.1"
 	},
 	"scripts": {
+		"lint": "eslint . --fix",
+		"format": "prettier --cache --write .",
 		"predev": "rimraf .next && kill-port 3000",
 		"dev": "next dev --turbopack",
 		"prebuild": "rimraf .next ../../docs",
@@ -33,8 +35,7 @@
 		"build:mobile": "pnpm run build:android && pnpm run build:ios",
 		"prestart": "kill-port 3000",
 		"start": "next start",
-		"lint": "eslint . --fix",
-		"format": "prettier --cache --write .",
+		"pretest": "jest --clearCache",
 		"test": "jest"
 	},
 	"dependencies": {
