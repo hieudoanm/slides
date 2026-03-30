@@ -39,6 +39,9 @@ Slides is a focused project in this monorepo that delivers a practical tool with
 - 💻 [CLI](https://github.com/hieudoanm/slides/releases)
 - 📱 [Mobile](https://github.com/hieudoanm/slides/releases)
 - 🖥️ [Desktop](https://github.com/hieudoanm/slides/releases)
+  - 🍎 [MacOS](https://github.com/hieudoanm/slides/releases/tag/macos-latest)
+  - 🐧 [Ubuntu](https://github.com/hieudoanm/slides/releases/tag/ubuntu-latest)
+  - 🪟 [Windows](https://github.com/hieudoanm/slides/releases/tag/windows-latest)
 
 ## 🛠️ 5. Development Stack
 
